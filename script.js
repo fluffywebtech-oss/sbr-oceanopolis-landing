@@ -68,9 +68,15 @@
     if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { mark(email, true); ok = false; }
     else mark(email, false);
     if (!ok) { msg.textContent = 'Please complete the highlighted fields.'; msg.className = 'form-msg bad'; return; }
-    msg.textContent = 'Thank you, ' + name.value.trim().split(' ')[0] + '! Our team will reach out shortly.';
+    var fullName = name.value.trim();
+    var cfg = form.config && form.config.value ? ' (' + form.config.value + ')' : '';
+    var waText = encodeURIComponent("Hi, I'm " + fullName + ". I'm interested in Oceanopolis at SBR" + cfg + ". Please share the details.");
+    var waUrl = 'https://wa.me/919911696599?text=' + waText;
+    msg.textContent = 'Thank you, ' + fullName.split(' ')[0] + '! Connecting you on WhatsApp…';
     msg.className = 'form-msg ok';
     form.reset();
+    var waWin = window.open(waUrl, '_blank');
+    if (!waWin) window.location.href = waUrl;
   });
 
   var y = document.getElementById('year');
